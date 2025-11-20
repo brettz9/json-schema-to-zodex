@@ -104,3 +104,4 @@ JSON Schema and Zod does not overlap 100% and the scope of the parsers are purpo
 
 1. Remove code which may only work with dynamic Zod but not Zodex
 1. Full coverage
+1. Add Zodex for each test file for sanity checking

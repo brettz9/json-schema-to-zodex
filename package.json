@@ -1,6 +1,6 @@
 {
   "name": "json-schema-to-zodex",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Converts JSON schema objects or files into Zod schemas",
   "types": "./dist/types/index.d.ts",
   "bin": "./dist/cjs/cli.js",
@@ -17,6 +17,7 @@
     }
   },
   "scripts": {
+    "prepublishOnly": "npm run build",
     "tsc": "tsc",
     "cli": "tsx ./src/cli.ts -i test/all.json",
     "build:types": "tsc -p tsconfig.types.json",
