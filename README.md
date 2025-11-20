@@ -9,6 +9,8 @@ A runtime package and CLI tool to convert JSON schema (draft 4+) objects or file
 
 This is a fork of [json-schema-to-zod](https://github.com/StefanTerdell/json-schema-to-zod) which seeks to allow dynamic evaluation without the need for `eval`.
 
+**Note that with the ability to convert to Zodex JSON, some of the export options are no longer relevant and may be removed.**
+
 _Looking for the opposite? Check out [zod-to-json-schema](https://npmjs.org/package/zod-to-json-schema)_
 
 ## Usage
@@ -64,49 +66,9 @@ const myObject = {
   },
 };
 
-const module = jsonSchemaToZodex(myObject, { module: "esm" });
-
 // `type` can be either a string or - outside of the CLI - a boolean. If its `true`, the name of the type will be the name of the schema with a capitalized first letter.
-const moduleWithType = jsonSchemaToZodex(myObject, {
-  name: "mySchema",
-  module: "esm",
-  type: true,
-});
-
-const cjs = jsonSchemaToZodex(myObject, { module: "cjs", name: "mySchema" });
 
 const justTheSchema = jsonSchemaToZodex(myObject);
-```
-
-##### `module`
-
-```typescript
-import { z } from "zod";
-
-export default z.object({ hello: z.string().optional() });
-```
-
-##### `moduleWithType`
-
-```typescript
-import { z } from "zod";
-
-export const mySchema = z.object({ hello: z.string().optional() });
-export type MySchema = z.infer<typeof mySchema>;
-```
-
-##### `cjs`
-
-```typescript
-const { z } = require("zod");
-
-module.exports = { mySchema: z.object({ hello: z.string().optional() }) };
-```
-
-##### `justTheSchema`
-
-```typescript
-z.object({ hello: z.string().optional() });
 ```
 
 #### Example with `$refs` resolved and output formatted
