@@ -14,7 +14,8 @@ suite("parseMultipleType", (test) => {
     };
     assert(
       parseSchema(schema, { path: [], seen: new Map() }),
-      `z.object({ "prop": z.union([z.string(), z.null()]).default(null) })`,
+      `{"type": "object", "properties": {"prop": {"type": "union", ` +
+        `"options": [{"type": "string"}, {"type": "null"}], "defaultValue": null}}}`,
     );
   });
 });

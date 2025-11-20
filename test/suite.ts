@@ -128,7 +128,7 @@ function assert(
         return errorMap;
       }
 
-      const error = assert(a[key], b[key], [...path, key]);
+      const error = assert((a as any)[key], (b as any)[key], [...path, key]);
 
       if (error) {
         foundError = true;

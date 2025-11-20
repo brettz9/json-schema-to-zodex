@@ -1,5 +1,5 @@
 export * from "./Types.js"
-export * from "./jsonSchemaToZod.js"
+export * from "./jsonSchemaToZodex.js"
 export * from "./parsers/parseAllOf.js"
 export * from "./parsers/parseAnyOf.js"
 export * from "./parsers/parseArray.js"
@@ -22,5 +22,5 @@ export * from "./utils/half.js"
 export * from "./utils/jsdocs.js"
 export * from "./utils/omit.js"
 export * from "./utils/withMessage.js"
-import { jsonSchemaToZod } from "./jsonSchemaToZod.js"
-export default jsonSchemaToZod
+import { jsonSchemaToZodex } from "./jsonSchemaToZodex.js"
+export default jsonSchemaToZodex

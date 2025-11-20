@@ -1,50 +1,38 @@
-# Json-Schema-to-Zod
+# Json-Schema-to-Zodex
 
-[![NPM Version](https://img.shields.io/npm/v/json-schema-to-zod.svg)](https://npmjs.org/package/json-schema-to-zod)
-[![NPM Downloads](https://img.shields.io/npm/dw/json-schema-to-zod.svg)](https://npmjs.org/package/json-schema-to-zod)
-
-# Notice of (pending) deprecation
-
-I'm waiting for a response regarding the Zod v4 support PR. After that has been merged, a final version of this package will be released, and this repo will be archived.
-
-_Please do not open any new issues or pull requests as I'm not likely to attend to them._
+[![NPM Version](https://img.shields.io/npm/v/json-schema-to-zodex.svg)](https://npmjs.org/package/json-schema-to-zodex)
+[![NPM Downloads](https://img.shields.io/npm/dw/json-schema-to-zodex.svg)](https://npmjs.org/package/json-schema-to-zodex)
 
 ## Summary
 
-A runtime package and CLI tool to convert JSON schema (draft 4+) objects or files into Zod schemas in the form of JavaScript code.
+A runtime package and CLI tool to convert JSON schema (draft 4+) objects or files into Zodex schemas.
 
-Before v2 it used [`prettier`](https://www.npmjs.com/package/prettier) for formatting and [`json-refs`](https://www.npmjs.com/package/json-refs) to resolve schemas. To replicate the previous behaviour, please use their respective CLI tools.
+This is a fork of [json-schema-to-zod](https://github.com/StefanTerdell/json-schema-to-zod) which seeks to allow dynamic evaluation without the need for `eval`.
 
-Since v2 the CLI supports piped JSON.
-
-_Looking for the exact opposite? Check out [zod-to-json-schema](https://npmjs.org/package/zod-to-json-schema)_
+_Looking for the opposite? Check out [zod-to-json-schema](https://npmjs.org/package/zod-to-json-schema)_
 
 ## Usage
-
-### Online
-
-[Just paste your JSON schemas here!](https://stefanterdell.github.io/json-schema-to-zod-react/)
 
 ### CLI
 
 #### Simplest example
 
 ```console
-npm i -g json-schema-to-zod
+npm i -g json-schema-to-zodex
 ```
 
 ```console
-json-schema-to-zod -i mySchema.json -o mySchema.ts
+json-schema-to-zodex -i mySchema.json -o mySchema.ts
 ```
 
 #### Example with `$refs` resolved and output formatted
 
 ```console
-npm i -g json-schema-to-zod json-refs prettier
+npm i -g json-schema-to-zodex json-refs prettier
 ```
 
 ```console
-json-refs resolve mySchema.json | json-schema-to-zod | prettier --parser typescript > mySchema.ts
+json-refs resolve mySchema.json | json-schema-to-zodex | prettier --parser typescript > mySchema.ts
 ```
 
 #### Options
@@ -65,7 +53,7 @@ json-refs resolve mySchema.json | json-schema-to-zod | prettier --parser typescr
 #### Simple example
 
 ```typescript
-import { jsonSchemaToZod } from "json-schema-to-zod";
+import { jsonSchemaToZodex } from "json-schema-to-zodex";
 
 const myObject = {
   type: "object",
@@ -76,18 +64,18 @@ const myObject = {
   },
 };
 
-const module = jsonSchemaToZod(myObject, { module: "esm" });
+const module = jsonSchemaToZodex(myObject, { module: "esm" });
 
 // `type` can be either a string or - outside of the CLI - a boolean. If its `true`, the name of the type will be the name of the schema with a capitalized first letter.
-const moduleWithType = jsonSchemaToZod(myObject, {
+const moduleWithType = jsonSchemaToZodex(myObject, {
   name: "mySchema",
   module: "esm",
   type: true,
 });
 
-const cjs = jsonSchemaToZod(myObject, { module: "cjs", name: "mySchema" });
+const cjs = jsonSchemaToZodex(myObject, { module: "cjs", name: "mySchema" });
 
-const justTheSchema = jsonSchemaToZod(myObject);
+const justTheSchema = jsonSchemaToZodex(myObject);
 ```
 
 ##### `module`
@@ -127,11 +115,11 @@ z.object({ hello: z.string().optional() });
 import { z } from "zod";
 import { resolveRefs } from "json-refs";
 import { format } from "prettier";
-import jsonSchemaToZod from "json-schema-to-zod";
+import jsonSchemaToZodex from "json-schema-to-zodex";
 
 async function example(jsonSchema: Record<string, unknown>): Promise<string> {
   const { resolved } = await resolveRefs(jsonSchema);
-  const code = jsonSchemaToZod(resolved);
+  const code = jsonSchemaToZodex(resolved);
   const formatted = await format(code, { parser: "typescript" });
 
   return formatted;
@@ -148,12 +136,9 @@ Factored schemas (like object schemas with "oneOf" etc.) is only partially suppo
 
 #### Use at Runtime
 
-The output of this package is not meant to be used at runtime. JSON Schema and Zod does not overlap 100% and the scope of the parsers are purposefully limited in order to help the author avoid a permanent state of chaotic insanity. As this may cause some details of the original schema to be lost in translation, it is instead recommended to use tools such as [Ajv](https://ajv.js.org/) to validate your runtime values directly against the original JSON Schema.
+JSON Schema and Zod does not overlap 100% and the scope of the parsers are purposefully limited in order to help the author avoid a permanent state of chaotic insanity. As this may cause some details of the original schema to be lost in translation, it is instead recommended to use tools such as [Ajv](https://ajv.js.org/) to validate your runtime values directly against the original JSON Schema.
 
-That said, it's possible in most cases to use `eval`. Here's an example that you shouldn't use:
+## To-dos
 
-```typescript
-const zodSchema = eval(jsonSchemaToZod({ type: "string" }, { module: "cjs" }));
-
-zodSchema.safeParse("Please just use Ajv instead");
-```
+1. Remove code which may only work with dynamic Zod but not Zodex
+1. Full coverage
