@@ -8,9 +8,9 @@ suite("dezerialize", (test) => {
       JSON.parse(jsonSchemaToZodex({ type: "string" })),
     );
 
-    assert(zodSchema.safeParse("Please just use Ajv instead"), {
+    assert(zodSchema.safeParse("Testing"), {
       success: true,
-      data: "Please just use Ajv instead",
+      data: "Testing",
     });
   });
 });
