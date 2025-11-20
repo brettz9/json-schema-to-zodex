@@ -105,7 +105,7 @@ function assert(
     });
     if (detailedDiffs.length) {
       // eslint-disable-next-line no-console -- Testing
-      // console.error(detailedDiffs);
+      console.error(detailedDiffs);
       return { expected, got: result };
     }
   }

@@ -67,7 +67,7 @@ suite("parseObject", (test) => {
         },
         { path: [], seen: new Map() },
       ),
-      '{"type": "object", "properties": {"myString": {"type": "string"}}, "unknownKeys": "strict"}',
+      '{"type": "object", "properties": {"myString": {"type": "string"}}, "catchall": {"type": "never"}}',
     );
   });
 

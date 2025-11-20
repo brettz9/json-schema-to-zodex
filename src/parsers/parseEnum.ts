@@ -9,7 +9,9 @@ export const parseEnum = (
     // union does not work when there is only one element
     return `{"type": "literal", "values": ${JSON.stringify(schema.enum)}}`;
   } else if (schema.enum.every((x) => typeof x === "string")) {
-    return `{"type": "enum", "values": [${schema.enum.map((x) => JSON.stringify(x))}]}`;
+    return `{"type": "enum", "values": {${
+      schema.enum.map((x, i) => `${JSON.stringify(x)}: ${JSON.stringify(x)}`).join(', ')
+    }}}`;
   } else {
     return `{"type": "union", "options": [${schema.enum
       .map((x) => `{"type": "literal", "values": [${JSON.stringify(x)}]}`)

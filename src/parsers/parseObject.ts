@@ -177,7 +177,7 @@ export function parseObject(
       ? properties + patternProperties
       : additionalProperties
         ? additionalProperties === `{"type": "never"}`
-          ? properties + `, "unknownKeys": "strict"`
+          ? properties + `, "catchall": {"type": "never"}`
           : properties + `, "catchall": ${additionalProperties}`
         : properties
     : patternProperties

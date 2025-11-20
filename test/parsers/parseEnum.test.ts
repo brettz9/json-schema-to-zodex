@@ -31,7 +31,7 @@ suite("parseEnum", (test) => {
           enum: ["someValue", "anotherValue"]
         },
       ),
-      `{"type": "enum", "values": ["someValue","anotherValue"]}`,
+      `{"type": "enum", "values": {"someValue": "someValue", "anotherValue": "anotherValue"}}`,
     );
   });
   test("should create union with mixed enums", (assert) => {

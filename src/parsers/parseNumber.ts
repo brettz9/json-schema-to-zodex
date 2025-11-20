@@ -7,22 +7,22 @@ export const parseNumber = (
   let r = `{"type": "number"`;
 
   if (schema.type === "integer") {
-    r += withMessage(schema, "type", () => [`, "int": true`, ""]);
+    r += withMessage(schema, "type", () => [`, "format": "safeint"`, ""]);
   } else {
     r += withMessage(schema, "format", ({ value }) => {
       if (value === "int64") {
-        return [`, "int": true`, ""];
+        return [`, "format": "int64"`, ""];
       }
     });
   }
 
   r += withMessage(schema, "multipleOf", ({ value, json }) => {
     if (value === 1) {
-      if (r.startsWith(`{"type": "number", "int": true`)) {
+      if (r.startsWith(`{"type": "number", "format": "safeint"`)) {
         return;
       }
 
-      return [`, "int": true`, ""];
+      return [`, "format": "safeint"`, ""];
     }
 
     return [`, "multipleOf": ${json}`, ""];

@@ -7,7 +7,7 @@ suite("parseNumber", (test) => {
       parseNumber({
         type: "integer",
       }),
-      `{"type": "number", "int": true}`
+      `{"type": "number", "format": "safeint"}`
     );
 
     assert(
@@ -15,7 +15,7 @@ suite("parseNumber", (test) => {
         type: "integer",
         multipleOf: 1
       }),
-      `{"type": "number", "int": true}`
+      `{"type": "number", "format": "safeint"}`
     );
 
     assert(
@@ -23,7 +23,7 @@ suite("parseNumber", (test) => {
         type: "number",
         multipleOf: 1
       }),
-      `{"type": "number", "int": true}`
+      `{"type": "number", "format": "safeint"}`
     );
   });
 
