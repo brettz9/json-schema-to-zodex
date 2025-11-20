@@ -20,7 +20,7 @@ suite("parseEnum", (test) => {
           enum: ["someValue"]
         },
       ),
-      `{"type": "literal", "value": "someValue"}`,
+      `{"type": "literal", "values": ["someValue"]}`,
     );
   });
 
@@ -41,7 +41,7 @@ suite("parseEnum", (test) => {
           enum: ["someValue", 57]
         },
       ),
-      `{"type": "union", "options": [{"type": "literal", "value": "someValue"}, {"type": "literal", "value": 57}]}`,
+      `{"type": "union", "options": [{"type": "literal", "values": ["someValue"]}, {"type": "literal", "values": [57]}]}`,
     );
   });
 });

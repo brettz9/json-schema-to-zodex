@@ -53,7 +53,7 @@ suite("parseSimpleDiscriminatedOneOf", (test) => {
         },
         { path: [], seen: new Map() },
       ),
-      '{"type": "object", "properties": {"objectType": {"type": "literal", "value": "typeA"}}}',
+      '{"type": "object", "properties": {"objectType": {"type": "literal", "values": ["typeA"]}}}',
     );
   });
 

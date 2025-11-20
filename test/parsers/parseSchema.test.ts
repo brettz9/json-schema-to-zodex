@@ -47,7 +47,7 @@ suite("parseSchema", (test) => {
   test("should handle enum", (assert) => {
     assert(
       parseSchema({ enum: ["someValue", 57] }),
-      `{"type": "union", "options": [{"type": "literal", "value": "someValue"}, {"type": "literal", "value": 57}]}`,
+      `{"type": "union", "options": [{"type": "literal", "values": ["someValue"]}, {"type": "literal", "values": [57]}]}`,
     );
   });
 

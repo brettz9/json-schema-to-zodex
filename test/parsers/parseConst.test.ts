@@ -7,7 +7,7 @@ suite("parseConst", (test) => {
       parseConst({
         const: false,
       }),
-      `{"type": "literal", "value": false}`,
+      `{"type": "literal", "values": [false]}`,
     );
   });
 });
