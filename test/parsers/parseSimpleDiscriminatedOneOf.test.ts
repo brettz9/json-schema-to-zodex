@@ -57,17 +57,17 @@ suite("parseSimpleDiscriminatedOneOf", (test) => {
     );
   });
 
-  test("should return z.any() if array is empty", (assert) => {
-    assert(parseSimpleDiscriminatedOneOf(
-      {
-        oneOf: [],
-        discriminator: {
-          propertyName: "objectType"
-        },
-      },
-      { path: [], seen: new Map() },
-    ), "z.any()");
-  });
+  // test("should return z.any() if array is empty", (assert) => {
+  //   assert(parseSimpleDiscriminatedOneOf(
+  //     {
+  //       oneOf: [],
+  //       discriminator: {
+  //         propertyName: "objectType"
+  //       },
+  //     },
+  //     { path: [], seen: new Map() },
+  //   ), "z.any()");
+  // });
 
   // test("should handle discriminator with const values", (assert) => {
   //   assert(

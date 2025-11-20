@@ -1,5 +1,9 @@
 import util from "util";
 import diff from "fast-diff";
+import { zerialize, dezerialize } from "zodex";
+import {
+  CompareValuesWithDetailedDifferences
+} from 'object-deep-compare';
 
 const RED = "\x1b[31m";
 const GREEN = "\x1b[32m";
@@ -88,7 +92,24 @@ function assert(
   a: unknown,
   b: unknown,
   path: (string | number)[],
+  alreadyRan: boolean = false
 ): Error | ErrorMap | undefined {
+  if (b && typeof b === 'string' && !alreadyRan) {
+    const dez = dezerialize(JSON.parse(b as any));
+    const result = zerialize(dez);
+    const expected = JSON.parse(b);
+    const detailedDiffs = CompareValuesWithDetailedDifferences(result, expected).filter((
+      {oldValue, newValue}
+    ) => {
+      return oldValue !== undefined || newValue !== undefined;
+    });
+    if (detailedDiffs.length) {
+      // eslint-disable-next-line no-console -- Testing
+      // console.error(detailedDiffs);
+      return { expected, got: result };
+    }
+  }
+
   if (a === b) {
     return undefined;
   }
@@ -128,7 +149,7 @@ function assert(
         return errorMap;
       }
 
-      const error = assert((a as any)[key], (b as any)[key], [...path, key]);
+      const error = assert((a as any)[key], (b as any)[key], [...path, key], true);
 
       if (error) {
         foundError = true;

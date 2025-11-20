@@ -38,7 +38,7 @@ suite("parseString", (test) => {
         type: "string",
         format: "ip",
       }),
-      `{"type": "string", "kind": "ip"}`,
+      `{"type": "string", "kind": "ip", "version": "v4"}`,
     );
     assert(
       parseString({

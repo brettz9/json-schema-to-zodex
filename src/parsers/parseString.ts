@@ -10,7 +10,7 @@ export const parseString = (schema: JsonSchemaObject & { type: "string" }) => {
       case "email":
         return [`, "kind": "email"`, ""];
       case "ip":
-        return [`, "kind": "ip"`, ""];
+        return [`, "kind": "ip", "version": "v4"`, ""];
       case "ipv4":
         return [`, "kind": "ip", "version": "v4"`, ""];
       case "ipv6":
