@@ -24,6 +24,13 @@ suite("parseString", (test) => {
     assert(
       parseString({
         type: "string",
+        format: "ipv4",
+      }),
+      `{"type": "string", "kind": "ip", "version": "v4"}`,
+    );
+    assert(
+      parseString({
+        type: "string",
         format: "ipv6",
       }),
       `{"type": "string", "kind": "ip", "version": "v6"}`,
@@ -70,6 +77,16 @@ suite("parseString", (test) => {
     );
   });
 
+  test("date-time", (assert) => {
+    assert(
+      parseString({
+        type: "string",
+        format: "date-time",
+      }),
+      `{"type": "string", "kind": "datetime", "offset": true}`,
+    );
+  });
+
   test("duration", (assert) => {
     assert(
       parseString({
@@ -95,6 +112,36 @@ suite("parseString", (test) => {
         format: "binary",
       }),
       `{"type": "string", "kind": "base64"}`,
+    );
+  });
+
+  test("regex", (assert) => {
+    assert(
+      parseString({
+        type: "string",
+        pattern: ".*",
+      }),
+      `{"type": "string", "regex": ".*"}`,
+    );
+  });
+
+  test("min", (assert) => {
+    assert(
+      parseString({
+        type: "string",
+        minLength: 15,
+      }),
+      `{"type": "string", "min": 15}`,
+    );
+  });
+
+  test("max", (assert) => {
+    assert(
+      parseString({
+        type: "string",
+        maxLength: 20,
+      }),
+      `{"type": "string", "max": 20}`,
     );
   });
 });
