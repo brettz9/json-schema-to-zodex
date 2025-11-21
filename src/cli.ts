@@ -36,11 +36,6 @@ const params = {
     value: ["esm", "cjs", "none"],
     description: "Module syntax; 'esm', 'cjs' or 'none'. Defaults to 'esm'.",
   },
-  type: {
-    shorthand: "t",
-    value: "string",
-    description: "The name of the (optional) inferred type export."
-  },
   withJsdocs: {
     shorthand: "wj",
     description: "Generate jsdocs off of the description property.",
@@ -55,7 +50,6 @@ async function main() {
     name: args.name,
     depth: args.depth,
     module: args.module || "esm",
-    type: args.type,
     withJsdocs: args.withJsdocs,
   });
 
