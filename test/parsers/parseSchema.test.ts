@@ -51,6 +51,48 @@ suite("parseSchema", (test) => {
     );
   });
 
+  test("should handle array", (assert) => {
+    assert(
+      parseSchema({ type: "array", items: [{type: "string"}] }),
+      `{"type": "tuple", "items": [{"type": "string"}]}`
+    );
+  });
+
+  test("should handle oneOf", (assert) => {
+    assert(
+      parseSchema({ oneOf: [{ type: "string" }] }),
+      `{"type": "string"}`
+    );
+  });
+
+  test("should handle discriminated union", (assert) => {
+    assert(
+      parseSchema({
+        discriminator: {
+          propertyName: "objectType"
+        },
+        oneOf: [
+          {
+            type: "object",
+            properties: {
+              objectType: { type: "string", enum: ["typeA"] },
+            },
+            required: ["objectType"],
+          },
+          {
+            type: "object",
+            properties: {
+              objectType: { type: "string", enum: ["typeB"] },
+            },
+            required: ["objectType"],
+          },
+        ],
+      }),
+      `{"type": "discriminatedUnion", "discriminator": "objectType", "options": [{"type": "object", "properties": {"objectType": {"type": "literal", "values": ["typeA"]}}}, {"type": "object", "properties": {"objectType": {"type": "literal", "values": ["typeB"]}}}]}`,
+      true
+    );
+  });
+
   test("should handle multiple type", (assert) => {
     assert(
       parseSchema({ type: [

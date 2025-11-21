@@ -220,5 +220,5 @@ export const its = {
     ): x is JsonSchemaObject & {
       oneOf: JsonSchema[];
     } => x.oneOf !== undefined,
-  },
+  }
 };
