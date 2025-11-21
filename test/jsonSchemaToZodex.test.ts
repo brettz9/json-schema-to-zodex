@@ -119,106 +119,108 @@ suite("jsonSchemaToZodex", (test) => {
     );
   });
 
-//   test("will remove optionality if default is present", (assert) => {
-//     assert(
-//       jsonSchemaToZodex(
-//         {
-//           type: "object",
-//           properties: {
-//             prop: {
-//               type: "string",
-//               default: "def",
-//             },
-//           },
-//         },
-//         { module: "esm" },
-//       ),
-//       `export default z.object({ "prop": z.string().default("def") })
-// `,
-//     );
-//   });
+  test("will remove optionality if default is present", (assert) => {
+    assert(
+      jsonSchemaToZodex(
+        {
+          type: "object",
+          properties: {
+            prop: {
+              type: "string",
+              default: "def",
+            },
+          },
+        },
+        { module: "esm" },
+      ),
+      `export default {"type": "object", "properties": {"prop": {"type": "string", "defaultValue": "def"}}}
+`,
+      true
+    );
+  });
 
-//   test("will handle falsy defaults", (assert) => {
-//     assert(
-//       jsonSchemaToZodex(
-//         {
-//           type: "boolean",
-//           default: false,
-//         },
-//         { module: "esm" },
-//       ),
-//       `export default z.boolean().default(false)
-// `,
-//     );
-//   });
+  test("will handle falsy defaults", (assert) => {
+    assert(
+      jsonSchemaToZodex(
+        {
+          type: "boolean",
+          default: false,
+        },
+        { module: "esm" },
+      ),
+      `export default {"type": "boolean", "defaultValue": false}
+`,
+      true
+    );
+  });
 
-//   test("will ignore undefined as default", (assert) => {
-//     assert(
-//       jsonSchemaToZodex(
-//         {
-//           type: "null",
-//           default: undefined,
-//         },
-//         { module: "esm" },
-//       ),
-//       `export default z.null()
-// `,
-//     );
-//   });
+  test("will ignore undefined as default", (assert) => {
+    assert(
+      jsonSchemaToZodex(
+        {
+          type: "null",
+          default: undefined,
+        },
+        { module: "esm" },
+      ),
+      `export default {"type": "null"}
+`,
+      true
+    );
+  });
 
-//   test("should be possible to define a custom parser", (assert) => {
-//     assert(
-//       jsonSchemaToZodex(
-//         {
-//           allOf: [
-//             { type: "string" },
-//             { type: "number" },
-//             { type: "boolean", description: "foo" },
-//           ],
-//         },
-//         {
-//           // module: false,
-//           parserOverride: (schema, refs) => {
-//             if (
-//               refs.path.length === 2 &&
-//               refs.path[0] === "allOf" &&
-//               refs.path[1] === 2 &&
-//               schema.type === "boolean" &&
-//               schema.description === "foo"
-//             ) {
-//               return "myCustomZodSchema";
-//             }
-//           },
-//         },
-//       ),
+  test("should be possible to define a custom parser", (assert) => {
+    assert(
+      jsonSchemaToZodex(
+        {
+          allOf: [
+            { type: "string" },
+            { type: "number" },
+            { type: "boolean", description: "foo" },
+          ],
+        },
+        {
+          // module: false,
+          parserOverride: (schema, refs) => {
+            if (
+              refs.path.length === 2 &&
+              refs.path[0] === "allOf" &&
+              refs.path[1] === 2 &&
+              schema.type === "boolean" &&
+              schema.description === "foo"
+            ) {
+              return "myCustomZodSchema";
+            }
+          },
+        },
+      ),
 
-//       `z.intersection(z.string(), z.intersection(z.number(), myCustomZodSchema))`,
-//     );
-//   });
+      `{"type": "intersection", "left": {"type": "string"}, "right": {"type": "intersection", "left": {"type": "number"}, "right": myCustomZodSchema}}`,
+      true
+    );
+  });
 
-//   test("can output with cjs and a name", (assert) => {
-//     assert(jsonSchemaToZodex({
-//       type: "string"
-//     }, { module: "cjs", name: "someName" }), `const { z } = require("zod")
+  test("can output with cjs and a name", (assert) => {
+    assert(jsonSchemaToZodex({
+      type: "string"
+    }, { module: "cjs", name: "someName" }),
+    `module.exports = { "someName": {"type": "string"} }
+`, true);
+  });
 
-// module.exports = { "someName": z.string() }
-// `);
-//   });
+  test("can output with cjs and no name", (assert) => {
+    assert(jsonSchemaToZodex({
+      type: "string"
+    }, { module: "cjs" }),
+    `module.exports = {"type": "string"}
+`, true);
+  });
 
-//   test("can output with cjs and no name", (assert) => {
-//     assert(jsonSchemaToZodex({
-//       type: "string"
-//     }, { module: "cjs" }), `const { z } = require("zod")
-
-// module.exports = z.string()
-// `);
-//   });
-
-//   test("can output with name only", (assert) => {
-//     assert(jsonSchemaToZodex({
-//       type: "string"
-//     }, { name: "someName" }), "const someName = z.string()");
-//   });
+  test("can output with name only", (assert) => {
+    assert(jsonSchemaToZodex({
+      type: "string"
+    }, { name: "someName" }), `const someName = {"type": "string"}`, true);
+  });
 
   test("can exclude name", (assert) => {
     assert(jsonSchemaToZodex(true), `{"type": "any"}`);
