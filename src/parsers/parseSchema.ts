@@ -43,7 +43,6 @@ export const parseSchema = (
     if (seen.r !== undefined) {
       return seen.r;
     }
-
     if (refs.depth === undefined || seen.n >= refs.depth) {
       return `{"type": "any"}`;
     }
