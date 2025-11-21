@@ -53,8 +53,6 @@ export type JsonSchemaObject = {
   // shared
   const?: Serializable;
   enum?: Serializable[];
-
-  errorMessage?: { [key: string]: string | undefined };
 } & { [key: string]: any };
 
 export type ParserSelector = (schema: JsonSchemaObject, refs: Refs) => string;

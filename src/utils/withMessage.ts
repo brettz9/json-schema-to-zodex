@@ -20,15 +20,10 @@ export function withMessage(
 
     if (got) {
       const opener = got[0];
-      // const prefix = got.length === 3 ? got[1] : "";
       const closer = got.length === 3 ? got[2] : got[1];
 
       r += opener;
 
-      if (schema.errorMessage?.[key] !== undefined) {
-        throw new Error("Unexpected error");
-        // r += prefix + JSON.stringify(schema.errorMessage[key]);
-      }
       r;
       r += closer;
     }
