@@ -1,5 +1,9 @@
 # CHANGES to json-schema-to-zodex
 
+## 0.2.0
+
+- fix: remove unused code
+
 ## 0.1.2
 
 - fix: Zodex 4 expectations for enums, ints, strict objects

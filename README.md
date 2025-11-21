@@ -98,8 +98,3 @@ Factored schemas (like object schemas with "oneOf" etc.) is only partially suppo
 #### Use at Runtime
 
 JSON Schema and Zod does not overlap 100% and the scope of the parsers are purposefully limited in order to help the author avoid a permanent state of chaotic insanity. As this may cause some details of the original schema to be lost in translation, it is instead recommended to use tools such as [Ajv](https://ajv.js.org/) to validate your runtime values directly against the original JSON Schema.
-
-## To-dos
-
-1. Remove code which may only work with dynamic Zod but not Zodex
-1. Full coverage
