@@ -31,6 +31,25 @@ export default {"type": "string", "description": "The description"}
     );
   });
 
+  test("should produce a string of JS code with multiline JSDocs", (assert) => {
+    assert(
+      jsonSchemaToZodex(
+        {
+          type: "string",
+          description: "The\ndescription"
+        },
+        { module: "esm", withJsdocs: true },
+      ),
+      `/**
+* The
+* description
+*/
+export default {"type": "string", "description": "The\\ndescription"}
+`,
+      true
+    );
+  });
+
   test("should produce a string of JS code creating a Zod schema from a simple JSON schema", (assert) => {
     assert(
       jsonSchemaToZodex(

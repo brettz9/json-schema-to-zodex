@@ -31,10 +31,6 @@ export function parseObject(
             path: [...refs.path, "properties", key],
           })}`;
 
-          if (refs.withJsdocs && typeof propSchema === "object") {
-            result = addJsdocs(propSchema, result)
-          }
-
           const hasDefault =
             typeof propSchema === "object" && propSchema.default !== undefined;
 
