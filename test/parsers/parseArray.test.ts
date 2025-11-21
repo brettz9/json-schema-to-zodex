@@ -37,6 +37,18 @@ suite("parseArray", (test) => {
     );
   });
 
+  test("should create array with missing items object", (assert) => {
+    assert(
+      parseArray(
+        {
+          type: 'array'
+        },
+        { path: [], seen: new Map() },
+      ),
+      `{"type": "array", "element": {"type": "any"}}`,
+    );
+  });
+
   test("should create max for maxItems", (assert) => {
     assert(
       parseArray(
@@ -50,6 +62,22 @@ suite("parseArray", (test) => {
         { path: [], seen: new Map() },
       ),
       `{"type": "array", "element": {"type": "string"}, "maxLength": 2}`
+    );
+  });
+
+  test("should create min for minItems", (assert) => {
+    assert(
+      parseArray(
+        {
+          type: 'array',
+          minItems: 2,
+          items: {
+            type: 'string'
+          }
+        },
+        { path: [], seen: new Map() },
+      ),
+      `{"type": "array", "element": {"type": "string"}, "minLength": 2}`
     );
   });
 
