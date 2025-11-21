@@ -47,7 +47,6 @@ json-refs resolve mySchema.json | json-schema-to-zodex | prettier --parser types
 | `--depth`      | `-d`      | Maximum depth of recursion in schema before falling back to `z.any()`. Defaults to 0.          |
 | `--module`     | `-m`      | Module syntax; `esm`, `cjs` or none. Defaults to `esm` in the CLI and `none` programmaticly.   |
 | `--type`       | `-t`      | Export a named type along with the schema. Requires `name` to be set and `module` to be `esm`. |
-| `--noImport`   | `-ni`     | Removes the `import { z } from 'zod';` or equivalent from the output.                          |
 | `--withJsdocs` | `-wj`     | Generate jsdocs off of the description property.                                               |
 
 ### Programmatic

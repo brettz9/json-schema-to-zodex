@@ -19,17 +19,6 @@ suite("cli", (test) => {
     assert(!stderr);
   });
 
-  test("runs cli (noImport)", (assert) => {
-    const { stderr } = spawnSync('tsx', [
-      'src/cli.ts',
-      '-i', 'test/all.json',
-      '--noImport'
-    ], {
-      encoding: 'utf8'
-    });
-    assert(!stderr);
-  });
-
   test("runs cli (stdin only)", (assert) => {
     const { stderr } = spawnSync('tsx', [
       'src/cli.ts'

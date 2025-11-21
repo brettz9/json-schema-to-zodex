@@ -41,10 +41,6 @@ const params = {
     value: "string",
     description: "The name of the (optional) inferred type export."
   },
-  noImport: {
-    shorthand: "ni",
-    description: "Removes the `import { z } from 'zod';` or equivalent from the output."
-  },
   withJsdocs: {
     shorthand: "wj",
     description: "Generate jsdocs off of the description property.",
@@ -59,7 +55,6 @@ async function main() {
     name: args.name,
     depth: args.depth,
     module: args.module || "esm",
-    noImport: args.noImport,
     type: args.type,
     withJsdocs: args.withJsdocs,
   });

@@ -76,7 +76,7 @@ export const parseSchema = (
 
 const addDescribes = (schema: JsonSchemaObject, parsed: string): string => {
   if (schema.description) {
-    parsed += `, "description": ${JSON.stringify(schema.description)}}`;
+    parsed = parsed.slice(0, -1) + `, "description": ${JSON.stringify(schema.description)}}`;
   }
 
   return parsed;

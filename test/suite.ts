@@ -9,7 +9,7 @@ const RED = "\x1b[31m";
 const GREEN = "\x1b[32m";
 const RESET = "\x1b[39m";
 
-type TestContext = (assert: (result: any, expected?: any) => void) => void;
+type TestContext = (assert: (result: any, expected?: any, skipJsonCheck?: boolean) => void) => void;
 type TestFunction = (name: string, context: TestContext) => void;
 type SuiteContext = (test: TestFunction) => void;
 type Error = { expected: any; got: any };
@@ -29,8 +29,8 @@ export function suite(suiteName: string, suiteContext: SuiteContext): void {
         assertions++;
 
         const error =
-          args.length === 2
-            ? assert(args[0], args[1], [])
+          args.length >= 2
+            ? assert(args[0], args[1], [], args[2])
             : args[0]
             ? undefined
             : { expected: "truthy", got: args[0] };

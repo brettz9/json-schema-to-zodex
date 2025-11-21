@@ -71,8 +71,7 @@ export type Options = {
   withJsdocs?: boolean;
   parserOverride?: ParserOverride;
   depth?: number;
-  type?: boolean | string;
-  noImport?: boolean
+  type?: boolean | string
 };
 
 export type Refs = Options & {

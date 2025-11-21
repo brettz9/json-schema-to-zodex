@@ -15,188 +15,109 @@ suite("jsonSchemaToZodex", (test) => {
     assert(jsonSchemaToZodex(schema as JSONSchema7Definition));
   });
 
-//   test("should produce a string of JS code creating a Zod schema from a simple JSON schema", (assert) => {
-//     assert(
-//       jsonSchemaToZodex(
-//         {
-//           type: "string",
-//         },
-//         { module: "esm" },
-//       ),
-//       `import { z } from "zod"
+  test("should produce a string of JS code creating a Zod schema from a simple JSON schema", (assert) => {
+    assert(
+      jsonSchemaToZodex(
+        {
+          type: "string",
+        },
+        { module: "esm" },
+      ),
+      `export default {"type": "string"}
+`,
+      true
+    );
+  });
 
-// export default z.string()
-// `,
-//     );
-//   });
+  test("should include defaults", (assert) => {
+    assert(
+      jsonSchemaToZodex(
+        {
+          type: "string",
+          default: "foo",
+        },
+        { module: "esm" },
+      ),
+      `export default {"type": "string", "defaultValue": "foo"}
+`,
+      true
+    );
+  });
 
-//   test("should be possible to skip the import line", (assert) => {
-//     assert(
-//       jsonSchemaToZodex(
-//         {
-//           type: "string",
-//         },
-//         { module: "esm", noImport: true },
-//       ),
-//       `export default z.string()
-// `,
-//     );
-//   });
+  test("should include falsy defaults", (assert) => {
+    assert(
+      jsonSchemaToZodex(
+        {
+          type: "string",
+          default: "",
+        },
+        { module: "esm" },
+      ),
+      `export default {"type": "string", "defaultValue": ""}
+`,
+      true
+    );
+  });
 
-//   test("should be possible to add types", (assert) => {
-//     assert(
-//       jsonSchemaToZodex(
-//         {
-//           type: "string",
-//         },
-//         { name: "mySchema", module: "esm", type: true },
-//       ),
-//       `import { z } from "zod"
+  test("should include falsy defaults", (assert) => {
+    assert(
+      jsonSchemaToZodex(
+        {
+          type: "string",
+          const: "",
+        },
+        { module: "esm" },
+      ),
+      `export default {"type": "literal", "values": [""]}
+`,
+      true
+    );
+  });
 
-// export const mySchema = z.string()
-// export type MySchema = z.infer<typeof mySchema>
-// `,
-//     );
-//   });
+  test("can exclude defaults", (assert) => {
+    assert(
+      jsonSchemaToZodex(
+        {
+          type: "string",
+          default: "foo",
+        },
+        { module: "esm", withoutDefaults: true },
+      ),
+      `export default {"type": "string"}
+`,
+      true
+    );
+  });
 
-//   test("should be possible to add types with a custom name template", (assert) => {
-//     assert(
-//       jsonSchemaToZodex(
-//         {
-//           type: "string",
-//         },
-//         { name: "mySchema", module: "esm", type: "MyType" },
-//       ),
-//       `import { z } from "zod"
+  test("should include descriptions", (assert) => {
+    assert(
+      jsonSchemaToZodex(
+        {
+          type: "string",
+          description: "foo",
+        },
+        { module: "esm" },
+      ),
+      `export default {"type": "string", "description": "foo"}
+`,
+      true
+    );
+  });
 
-// export const mySchema = z.string()
-// export type MyType = z.infer<typeof mySchema>
-// `,
-//     );
-//   });
-
-//   test("should throw when given module cjs and type", (assert) => {
-//     let didThrow = false;
-
-//     try {
-//       jsonSchemaToZodex(
-//         { type: "string" },
-//         { name: "hello", module: "cjs", type: true },
-//       );
-//     } catch {
-//       didThrow = true;
-//     }
-
-//     assert(didThrow);
-//   });
-
-//   test("should throw when given type but no name", (assert) => {
-//     let didThrow = false;
-
-//     try {
-//       jsonSchemaToZodex({ type: "string" }, { module: "esm", type: true });
-//     } catch {
-//       didThrow = true;
-//     }
-
-//     assert(didThrow);
-//   });
-
-//   test("should include defaults", (assert) => {
-//     assert(
-//       jsonSchemaToZodex(
-//         {
-//           type: "string",
-//           default: "foo",
-//         },
-//         { module: "esm" },
-//       ),
-//       `import { z } from "zod"
-
-// export default z.string().default("foo")
-// `,
-//     );
-//   });
-
-//   test("should include falsy defaults", (assert) => {
-//     assert(
-//       jsonSchemaToZodex(
-//         {
-//           type: "string",
-//           default: "",
-//         },
-//         { module: "esm" },
-//       ),
-//       `import { z } from "zod"
-
-// export default z.string().default("")
-// `,
-//     );
-//   });
-
-//   test("should include falsy defaults", (assert) => {
-//     assert(
-//       jsonSchemaToZodex(
-//         {
-//           type: "string",
-//           const: "",
-//         },
-//         { module: "esm" },
-//       ),
-//       `import { z } from "zod"
-
-// export default z.literal("")
-// `,
-//     );
-//   });
-
-//   test("can exclude defaults", (assert) => {
-//     assert(
-//       jsonSchemaToZodex(
-//         {
-//           type: "string",
-//           default: "foo",
-//         },
-//         { module: "esm", withoutDefaults: true },
-//       ),
-//       `import { z } from "zod"
-
-// export default z.string()
-// `,
-//     );
-//   });
-
-//   test("should include describes", (assert) => {
-//     assert(
-//       jsonSchemaToZodex(
-//         {
-//           type: "string",
-//           description: "foo",
-//         },
-//         { module: "esm" },
-//       ),
-//       `import { z } from "zod"
-
-// export default z.string().describe("foo")
-// `,
-//     );
-//   });
-
-//   test("can exclude describes", (assert) => {
-//     assert(
-//       jsonSchemaToZodex(
-//         {
-//           type: "string",
-//           description: "foo",
-//         },
-//         { module: "esm", withoutDescribes: true },
-//       ),
-//       `import { z } from "zod"
-
-// export default z.string()
-// `,
-//     );
-//   });
+  test("can exclude describes", (assert) => {
+    assert(
+      jsonSchemaToZodex(
+        {
+          type: "string",
+          description: "foo",
+        },
+        { module: "esm", withoutDescribes: true },
+      ),
+      `export default {"type": "string"}
+`,
+      true
+    );
+  });
 
 //   test("will remove optionality if default is present", (assert) => {
 //     assert(
@@ -212,9 +133,7 @@ suite("jsonSchemaToZodex", (test) => {
 //         },
 //         { module: "esm" },
 //       ),
-//       `import { z } from "zod"
-
-// export default z.object({ "prop": z.string().default("def") })
+//       `export default z.object({ "prop": z.string().default("def") })
 // `,
 //     );
 //   });
@@ -228,9 +147,7 @@ suite("jsonSchemaToZodex", (test) => {
 //         },
 //         { module: "esm" },
 //       ),
-//       `import { z } from "zod"
-
-// export default z.boolean().default(false)
+//       `export default z.boolean().default(false)
 // `,
 //     );
 //   });
@@ -244,9 +161,7 @@ suite("jsonSchemaToZodex", (test) => {
 //         },
 //         { module: "esm" },
 //       ),
-//       `import { z } from "zod"
-
-// export default z.null()
+//       `export default z.null()
 // `,
 //     );
 //   });
