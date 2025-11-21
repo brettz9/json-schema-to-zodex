@@ -49,6 +49,18 @@ suite("cli", (test) => {
     assert(!stderr);
   });
 
+  test("runs cli (output) with withJsdocs", (assert) => {
+    const { stderr } = spawnSync('tsx', [
+      'src/cli.ts',
+      '--withJsdocs',
+      '--output', 'test/output/output.js',
+      '-i', 'test/all.json'
+    ], {
+      encoding: 'utf8'
+    });
+    assert(!stderr);
+  });
+
   test("runs cli (output with depth)", (assert) => {
     const { stderr } = spawnSync('tsx', [
       'src/cli.ts',
