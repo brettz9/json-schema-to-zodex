@@ -2,7 +2,6 @@ import { parseAnyOf } from "./parseAnyOf.js";
 import { parseBoolean } from "./parseBoolean.js";
 import { parseDefault } from "./parseDefault.js";
 import { parseMultipleType } from "./parseMultipleType.js";
-import { parseNot } from "./parseNot.js";
 import { parseNull } from "./parseNull.js";
 import { parseAllOf } from "./parseAllOf.js";
 import { parseArray } from "./parseArray.js";
@@ -112,8 +111,6 @@ const selectParser: ParserSelector = (schema, refs) => {
     return parseSimpleDiscriminatedOneOf(schema, refs);
   } else if (its.a.oneOf(schema)) {
     return parseOneOf(schema, refs);
-  } else if (its.a.not(schema)) {
-    return parseNot(schema, refs);
   } else if (its.an.enum(schema)) {
     return parseEnum(schema); //<-- needs to come before primitives
   } else if (its.a.const(schema)) {
@@ -166,11 +163,6 @@ export const its = {
     multipleType: (
       x: JsonSchemaObject,
     ): x is JsonSchemaObject & { type: string[] } => Array.isArray(x.type),
-    not: (
-      x: JsonSchemaObject,
-    ): x is JsonSchemaObject & {
-      not: JsonSchema;
-    } => x.not !== undefined,
     const: (
       x: JsonSchemaObject,
     ): x is JsonSchemaObject & {

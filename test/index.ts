@@ -6,7 +6,6 @@ import "./parsers/parseAllOf.test.js";
 import "./parsers/parseArray.test.js";
 import "./parsers/parseConst.test.js";
 import "./parsers/parseEnum.test.js";
-import "./parsers/parseNot.test.js";
 import "./parsers/parseNullable.test.js"
 import "./parsers/parseNumber.test.js";
 import "./parsers/parseObject.test.js";
