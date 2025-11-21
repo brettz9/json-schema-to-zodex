@@ -15,6 +15,22 @@ suite("jsonSchemaToZodex", (test) => {
     assert(jsonSchemaToZodex(schema as JSONSchema7Definition));
   });
 
+  test("should produce a string of JS code with JSDocs", (assert) => {
+    assert(
+      jsonSchemaToZodex(
+        {
+          type: "string",
+          description: "The description"
+        },
+        { module: "esm", withJsdocs: true },
+      ),
+      `/**The description*/
+export default {"type": "string", "description": "The description"}
+`,
+      true
+    );
+  });
+
   test("should produce a string of JS code creating a Zod schema from a simple JSON schema", (assert) => {
     assert(
       jsonSchemaToZodex(
@@ -205,6 +221,14 @@ suite("jsonSchemaToZodex", (test) => {
       type: "string"
     }, { module: "cjs", name: "someName" }),
     `module.exports = { "someName": {"type": "string"} }
+`, true);
+  });
+
+  test("can output with esm and a name", (assert) => {
+    assert(jsonSchemaToZodex({
+      type: "string"
+    }, { module: "esm", name: "someName" }),
+    `export const someName = {"type": "string"}
 `, true);
   });
 
