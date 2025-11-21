@@ -20,7 +20,7 @@ export function withMessage(
 
     if (got) {
       const opener = got[0];
-      const closer = got.length === 3 ? got[2] : got[1];
+      const closer = got[1];
 
       r += opener;
 

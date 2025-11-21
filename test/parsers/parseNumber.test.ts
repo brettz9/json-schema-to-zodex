@@ -25,6 +25,14 @@ suite("parseNumber", (test) => {
       }),
       `{"type": "number", "format": "safeint"}`
     );
+
+    assert(
+      parseNumber({
+        type: "integer",
+        multipleOf: 2
+      }),
+      `{"type": "number", "format": "safeint", "multipleOf": 2}`
+    );
   });
 
   test("should handle minimum with exclusiveMinimum", (assert) => {
