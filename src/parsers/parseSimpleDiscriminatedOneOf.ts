@@ -11,13 +11,13 @@ export const parseSimpleDiscriminatedOneOf = (
           ...refs,
           path: [...refs.path, "oneOf", 0],
         })
-      : `z.discriminatedUnion("${schema.discriminator.propertyName}", [${schema.oneOf
+      : `{"type": "discriminatedUnion", "discriminator": "${schema.discriminator.propertyName}", "options": [${schema.oneOf
       .map((schema, i) =>
         parseSchema(schema, {
           ...refs,
           path: [...refs.path, "oneOf", i],
         }),
       )
-      .join(", ")}])`
-    : "z.any()";
+      .join(", ")}]}`
+    : `{"type": "any"}`;
 };

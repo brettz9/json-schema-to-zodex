@@ -4,35 +4,35 @@ import { JsonSchemaObject } from "../../src/Types.js";
 import { suite } from "../suite";
 
 suite("parseSimpleDiscriminatedOneOf", (test) => {
-  // test("should create a discriminated union from two or more object schemas", (assert) => {
-  //   assert(
-  //     parseSimpleDiscriminatedOneOf(
-  //       {
-  //         discriminator: {
-  //           propertyName: "objectType"
-  //         },
-  //         oneOf: [
-  //           {
-  //             type: "object",
-  //             properties: {
-  //               objectType: { type: "string", enum: ["typeA"] },
-  //             },
-  //             required: ["objectType"],
-  //           },
-  //           {
-  //             type: "object",
-  //             properties: {
-  //               objectType: { type: "string", enum: ["typeB"] },
-  //             },
-  //             required: ["objectType"],
-  //           },
-  //         ],
-  //       },
-  //       { path: [], seen: new Map() },
-  //     ),
-  //     'z.discriminatedUnion("objectType", [z.object({ "objectType": z.literal("typeA") }), z.object({ "objectType": z.literal("typeB") })])',
-  //   );
-  // });
+  test("should create a discriminated union from two or more object schemas", (assert) => {
+    assert(
+      parseSimpleDiscriminatedOneOf(
+        {
+          discriminator: {
+            propertyName: "objectType"
+          },
+          oneOf: [
+            {
+              type: "object",
+              properties: {
+                objectType: { type: "string", enum: ["typeA"] },
+              },
+              required: ["objectType"],
+            },
+            {
+              type: "object",
+              properties: {
+                objectType: { type: "string", enum: ["typeB"] },
+              },
+              required: ["objectType"],
+            },
+          ],
+        },
+        { path: [], seen: new Map() },
+      ),
+      '{"type": "discriminatedUnion", "discriminator": "objectType", "options": [{"type": "object", "properties": {"objectType": {"type": "literal", "values": ["typeA"]}}}, {"type": "object", "properties": {"objectType": {"type": "literal", "values": ["typeB"]}}}]}'
+    );
+  });
 
   test("should extract a single schema", (assert) => {
     assert(
@@ -57,49 +57,49 @@ suite("parseSimpleDiscriminatedOneOf", (test) => {
     );
   });
 
-  // test("should return z.any() if array is empty", (assert) => {
-  //   assert(parseSimpleDiscriminatedOneOf(
-  //     {
-  //       oneOf: [],
-  //       discriminator: {
-  //         propertyName: "objectType"
-  //       },
-  //     },
-  //     { path: [], seen: new Map() },
-  //   ), "z.any()");
-  // });
+  test("should return anyif array is empty", (assert) => {
+    assert(parseSimpleDiscriminatedOneOf(
+      {
+        oneOf: [],
+        discriminator: {
+          propertyName: "objectType"
+        },
+      },
+      { path: [], seen: new Map() },
+    ), `{"type": "any"}`);
+  });
 
-  // test("should handle discriminator with const values", (assert) => {
-  //   assert(
-  //     parseSimpleDiscriminatedOneOf(
-  //       {
-  //         discriminator: {
-  //           propertyName: "kind"
-  //         },
-  //         oneOf: [
-  //           {
-  //             type: "object",
-  //             properties: {
-  //               kind: { type: "string", const: "person" },
-  //               name: { type: "string" },
-  //             },
-  //             required: ["kind", "name"],
-  //           },
-  //           {
-  //             type: "object",
-  //             properties: {
-  //               kind: { type: "string", const: "company" },
-  //               companyName: { type: "string" },
-  //             },
-  //             required: ["kind", "companyName"],
-  //           },
-  //         ],
-  //       },
-  //       { path: [], seen: new Map() },
-  //     ),
-  //     'z.discriminatedUnion("kind", [z.object({ "kind": z.literal("person"), "name": z.string() }), z.object({ "kind": z.literal("company"), "companyName": z.string() })])',
-  //   );
-  // });
+  test("should handle discriminator with const values", (assert) => {
+    assert(
+      parseSimpleDiscriminatedOneOf(
+        {
+          discriminator: {
+            propertyName: "kind"
+          },
+          oneOf: [
+            {
+              type: "object",
+              properties: {
+                kind: { type: "string", const: "person" },
+                name: { type: "string" },
+              },
+              required: ["kind", "name"],
+            },
+            {
+              type: "object",
+              properties: {
+                kind: { type: "string", const: "company" },
+                companyName: { type: "string" },
+              },
+              required: ["kind", "companyName"],
+            },
+          ],
+        },
+        { path: [], seen: new Map() },
+      ),
+      '{"type": "discriminatedUnion", "discriminator": "kind", "options": [{"type": "object", "properties": {"kind": {"type": "literal", "values": ["person"]}, "name": {"type": "string"}}}, {"type": "object", "properties": {"kind": {"type": "literal", "values": ["company"]}, "companyName": {"type": "string"}}}]}'
+    );
+  });
 
   // Type guard tests
   test("type guard should accept valid discriminated union with const values", (assert) => {
