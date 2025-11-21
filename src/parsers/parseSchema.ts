@@ -8,7 +8,6 @@ import { parseAllOf } from "./parseAllOf.js";
 import { parseArray } from "./parseArray.js";
 import { parseConst } from "./parseConst.js";
 import { parseEnum } from "./parseEnum.js";
-import { parseIfThenElse } from "./parseIfThenElse.js";
 import { parseNumber } from "./parseNumber.js";
 import { parseObject } from "./parseObject.js";
 import { parseString } from "./parseString.js";
@@ -132,8 +131,6 @@ const selectParser: ParserSelector = (schema, refs) => {
     return parseBoolean(schema);
   } else if (its.a.primitive(schema, "null")) {
     return parseNull(schema);
-  } else if (its.a.conditional(schema)) {
-    return parseIfThenElse(schema, refs);
   } else {
     return parseDefault(schema);
   }
@@ -183,16 +180,6 @@ export const its = {
       x: JsonSchemaObject,
       p: T,
     ): x is JsonSchemaObject & { type: T } => x.type === p,
-    conditional: (
-      x: JsonSchemaObject,
-    ): x is JsonSchemaObject & {
-      if: JsonSchema;
-      then: JsonSchema;
-      else: JsonSchema;
-    } =>
-      Boolean(
-        "if" in x && x.if && "then" in x && "else" in x && x.then && x.else,
-      ),
     simpleDiscriminatedOneOf: (
       x: JsonSchemaObject,
     ): x is SimpleDiscriminatedOneOfSchema => {
