@@ -27,7 +27,7 @@ suite("parseNumber", (test) => {
     );
   });
 
-  test("should handle maximum with exclusiveMinimum", (assert) => {
+  test("should handle minimum with exclusiveMinimum", (assert) => {
     assert(
       parseNumber({
         type: "number",
@@ -38,7 +38,17 @@ suite("parseNumber", (test) => {
     );
   });
 
-  test("should handle maximum with exclusiveMinimum", (assert) => {
+  test("should handle exclusiveMinimum without minimium", (assert) => {
+    assert(
+      parseNumber({
+        type: "number",
+        exclusiveMinimum: 2,
+      }),
+      `{"type": "number", "min": 2}`
+    );
+  });
+
+  test("should handle minimum without exclusiveMinimum", (assert) => {
     assert(
       parseNumber({
         type: "number",
@@ -56,6 +66,16 @@ suite("parseNumber", (test) => {
         maximum: 2,
       }),
       `{"type": "number", "max": 2}`
+    );
+  });
+
+  test("should handle maximum without exclusiveMaximum", (assert) => {
+    assert(
+      parseNumber({
+        type: "number",
+        maximum: 2,
+      }),
+      `{"type": "number", "max": 2, "maxInclusive": true}`
     );
   });
 

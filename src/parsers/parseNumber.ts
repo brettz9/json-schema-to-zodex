@@ -8,12 +8,6 @@ export const parseNumber = (
 
   if (schema.type === "integer") {
     r += withMessage(schema, "type", () => [`, "format": "safeint"`, ""]);
-  } else {
-    r += withMessage(schema, "format", ({ value }) => {
-      if (value === "int64") {
-        return [`, "format": "int64"`, ""];
-      }
-    });
   }
 
   r += withMessage(schema, "multipleOf", ({ value, json }) => {
