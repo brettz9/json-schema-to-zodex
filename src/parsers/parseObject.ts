@@ -3,7 +3,6 @@ import { parseAnyOf } from "./parseAnyOf.js";
 import { parseOneOf } from "./parseOneOf.js";
 import { its, parseSchema } from "./parseSchema.js";
 import { parseAllOf } from "./parseAllOf.js";
-import { addJsdocs } from "../utils/jsdocs.js";
 
 export function parseObject(
   objectSchema: JsonSchemaObject & { type: "object" },

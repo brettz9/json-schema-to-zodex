@@ -233,6 +233,59 @@ suite("parseObject", (test) => {
       `{"type": "intersection", "left": {"type": "object", "properties": {"a": {"type": "string"}}}, "right": {"type": "union", "options": [{"type": "object", "properties": {"b": {"type": "string"}}}, {"type": "any"}]}}`,
     );
 
+    assert(
+      parseObject(
+        {
+          type: "object",
+          required: ["a"],
+          properties: {
+            a: {
+              type: "string",
+            },
+          },
+          oneOf: [
+            {
+              required: ["b"],
+              properties: {
+                b: {
+                  type: "string",
+                },
+              },
+            }
+          ]
+        },
+        { path: [], seen: new Map() }
+      ),
+      `{"type": "intersection", "left": {"type": "object", "properties": {"a": {"type": "string"}}}, "right": {"type": "object", "properties": {"b": {"type": "string"}}}}`
+    );
+
+    assert(
+      parseObject(
+        {
+          type: "object",
+          required: ["a"],
+          properties: {
+            a: {
+              type: "string",
+            },
+          },
+          oneOf: [
+            {
+              required: ["b"],
+              type: "object",
+              properties: {
+                b: {
+                  type: "string",
+                },
+              },
+            }
+          ]
+        },
+        { path: [], seen: new Map() }
+      ),
+      `{"type": "intersection", "left": {"type": "object", "properties": {"a": {"type": "string"}}}, "right": {"type": "object", "properties": {"b": {"type": "string"}}}}`
+    );
+
   //   assert(
   //     parseObject(
   //       {
