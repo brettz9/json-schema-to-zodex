@@ -9,7 +9,8 @@ A runtime package and CLI tool to convert JSON schema (draft 4+) objects or file
 
 This is a fork of [json-schema-to-zod](https://github.com/StefanTerdell/json-schema-to-zod) which seeks to allow dynamic evaluation without the need for `eval`.
 
-**Note that with the ability to convert to Zodex JSON, some of the export options are no longer relevant and may be removed.**
+**Note that with the ability to convert to Zodex JSON, some of the export options are no longer relevant and have been removed.** The original project adds procedural code for cases which Zodex does not handle out of the box (e.g., for multiple `oneOf` or conditionals), so if you
+need such features, you may need to rely on the original project.
 
 _Looking for the opposite? Check out [zod-to-json-schema](https://npmjs.org/package/zod-to-json-schema)_
 
