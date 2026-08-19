@@ -56,7 +56,7 @@ export const parseSchema = (
   let parsed = selectParser(schema, refs);
   if (!blockMeta) {
     if (!refs.withoutDescribes) {
-      parsed = addDescribes(schema, parsed);
+      parsed = addMeta(schema, parsed);
     }
 
     if (!refs.withoutDefaults) {
@@ -71,7 +71,7 @@ export const parseSchema = (
   return parsed;
 };
 
-const addDescribes = (schema: JsonSchemaObject, parsed: string): string => {
+const addMeta = (schema: JsonSchemaObject, parsed: string): string => {
   if (schema.description) {
     parsed = parsed.slice(0, -1) + `, "description": ${JSON.stringify(schema.description)}}`;
   }
