@@ -1,7 +1,9 @@
-# Json-Schema-to-Zodex
+# json-schema-to-zodex
 
 [![NPM Version](https://img.shields.io/npm/v/json-schema-to-zodex.svg)](https://npmjs.org/package/json-schema-to-zodex)
 [![NPM Downloads](https://img.shields.io/npm/dw/json-schema-to-zodex.svg)](https://npmjs.org/package/json-schema-to-zodex)
+
+**This package is now deprecated in favor of [json-schema-to-zodexy](https://github.com/brettz9/json-schema-to-zodexy)**
 
 ## Summary
 
