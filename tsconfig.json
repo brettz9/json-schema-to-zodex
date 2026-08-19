@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "types": ["node"],
     "strict": true,
     "noEmit": true,
     "skipLibCheck": true,
